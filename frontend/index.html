@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>News Sentiment Analyzer</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    #result { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h2>Upload News Article (PDF or DOCX)</h2>
+  <input type="file" id="fileInput" />
+  <button onclick="upload()">Analyze</button>
+  <div id="result"></div>
+
+  <script>
+    async function upload() {
+      const file = document.getElementById("fileInput").files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("http://localhost:8000/analyze", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
